@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.my.docscannerapp.screens.HomeScreen
 import com.my.docscannerapp.ui.theme.DocScannerAppTheme
 import com.my.docscannerapp.viewmodels.pdfViewModel
 
@@ -29,28 +30,9 @@ class MainActivity : ComponentActivity() {
                 splashScreen.setKeepOnScreenCondition {pdfViewModel.isSplashScreen}
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    HomeScreen()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DocScannerAppTheme {
-        Greeting("Android")
     }
 }
