@@ -8,11 +8,21 @@ import kotlinx.coroutines.launch
 
 class pdfViewModel: ViewModel() {
     var isSplashScreen by mutableStateOf(false)
+    var showRenameDialog by mutableStateOf(false)
+    var LoadingDialog by mutableStateOf(false)
 
     init {
         viewModelScope.launch {
             delay(3000)
             isSplashScreen=false
         }
+    }
+
+    fun renamePdf(newName: String) {
+        // TODO: update list item
+    }
+
+    fun deletePdf() {
+        // TODO: remove item
     }
 }
