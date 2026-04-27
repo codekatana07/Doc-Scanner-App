@@ -2,6 +2,8 @@ package com.my.docscannerapp.ui.screens.home.components
 
 import android.app.Activity
 import android.content.Intent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -33,6 +37,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import com.my.docscannerapp.utils.getFileUri
 import com.my.docscannerapp.ui.viewmodels.PdfViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: PdfViewModel) {
@@ -43,8 +49,9 @@ fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: PdfViewModel) {
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(10.dp),
-            elevation = CardDefaults.cardElevation(4.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.Red),
+            shape = RoundedCornerShape(16.dp),
+            elevation = CardDefaults.cardElevation(6.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFE53935)),
             onClick = {
                 val getFileUri = getFileUri(context, pdfEntity.name)
                 val browserIntent = Intent(Intent.ACTION_VIEW,getFileUri)
@@ -60,14 +67,29 @@ fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: PdfViewModel) {
                     .padding(10.dp),
                 verticalAlignment= Alignment.CenterVertically,
             ) {
-                Icon(
-                    painter = painterResource(R.drawable.outline_book_24),
-                    contentDescription = "PDF icon",
-                    modifier = Modifier.padding(8.dp)
-                        .size(52.dp),
-                    tint = Color.White
+                Box(
+                    modifier = Modifier
+                        .size(60.dp),
+                        //.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), shape = CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_book_24),
+                        contentDescription = null,
+                        modifier = Modifier.size(40.dp),
+                        tint = Color.White
 
-                )
+                        //tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+//                Icon(
+//                    painter = painterResource(R.drawable.outline_book_24),
+//                    contentDescription = "PDF icon",
+//                    modifier = Modifier.padding(8.dp)
+//                        .size(52.dp),
+//                    tint = Color.White
+//
+//                )
                 Spacer(modifier = Modifier.width(16.dp))
                 Column(
                     modifier = Modifier.weight(1f).padding(8.dp),
@@ -83,6 +105,10 @@ fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: PdfViewModel) {
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Size: ${pdfEntity.size}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "Date: ${SimpleDateFormat("dd-MMM-yyyy HH:mm:ss",Locale.getDefault()).format(pdfEntity.lastModifiedDate)}",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }

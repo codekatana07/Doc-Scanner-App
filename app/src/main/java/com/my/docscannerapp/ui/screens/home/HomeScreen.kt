@@ -15,6 +15,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import com.my.docscannerapp.R
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
@@ -37,6 +39,7 @@ import com.my.docscannerapp.ui.screens.home.components.pdfLayout
 import com.my.docscannerapp.utils.copyPdfFileToAppDirectory
 import com.my.docscannerapp.utils.showToast
 import com.my.docscannerapp.ui.viewmodels.PdfViewModel
+import com.my.docscannerapp.utils.getFileSize
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -70,7 +73,7 @@ fun HomeScreen(pdfViewModel:PdfViewModel) {
                     ).format(date) + ".pdf"
 
                     copyPdfFileToAppDirectory(context,pdf.uri,fileName)
-                    val pdfEntity = pdfEntity(UUID.randomUUID().toString(),fileName,"10kb",date)
+                    val pdfEntity = pdfEntity(UUID.randomUUID().toString(),fileName,getFileSize(context,fileName),date)
                     pdfViewModel.insertPdf(pdfEntity)
 
 
@@ -95,6 +98,14 @@ fun HomeScreen(pdfViewModel:PdfViewModel) {
             TopAppBar(
                 title = {
                     Text(text = stringResource(id = R.string.app_name))
+                }, actions = {
+                    Switch(
+                        checked = pdfViewModel.isDarkMode,
+                        onCheckedChange = {
+                            pdfViewModel.isDarkMode = it
+                        },
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Red,

@@ -1,10 +1,15 @@
 package com.my.docscannerapp.ui.screens.home.components
 
+import android.content.Intent
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.my.docscannerapp.R
@@ -12,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import com.my.docscannerapp.ui.viewmodels.PdfViewModel
 import com.my.docscannerapp.utils.deleteFile
+import com.my.docscannerapp.utils.getFileUri
 import com.my.docscannerapp.utils.renameFile
 import java.util.Date
 
@@ -60,14 +66,36 @@ fun RenameDeleteDialog(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-
-                        TextButton(
+                        IconButton(
                             onClick = {
-                                pdfViewModel.showRenameDialog = false
+                                pdfViewModel.currentPdfEntity?.let{
+                                    pdfViewModel.showRenameDialog = false
+                                    val getFileUri = getFileUri(context, it.name)
+                                    val ShareIntent = Intent(Intent.ACTION_SEND)
+                                    ShareIntent.type = "application/pdf"
+                                    ShareIntent.putExtra(Intent.EXTRA_STREAM,getFileUri)
+                                    ShareIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                    context.startActivity(Intent.createChooser(ShareIntent,"Share"))
+                                }
+//                                pdfViewModel.currentPdfEntity = pdfEntity
+//                                pdfViewModel.showRenameDialog = true
                             }
                         ) {
-                            Text("Cancel")
+                            Icon(
+                                imageVector = Icons.Default.Share,
+                                contentDescription = "Share",
+                                modifier = Modifier.padding(2.dp)
+                                    .size(40.dp),
+                                tint = Color.Red
+                            )
                         }
+//                        TextButton(
+//                            onClick = {
+//                                pdfViewModel.showRenameDialog = false
+//                            }
+//                        ) {
+//                            Text("Cancel")
+//                        }
 
                         TextButton(
                             onClick = {

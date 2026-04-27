@@ -17,6 +17,7 @@ class PdfViewModel(application: Application): ViewModel() {
     var isSplashScreen by mutableStateOf(false)
     var showRenameDialog by mutableStateOf(false)
     var LoadingDialog by mutableStateOf(false)
+    var isDarkMode by mutableStateOf(false)
 
     private val pdfRepository = pdfRepository(application)
 

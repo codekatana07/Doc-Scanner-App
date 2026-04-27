@@ -21,6 +21,19 @@ fun copyPdfFileToAppDirectory(context: Context,pdfUri: Uri, destinationFileName:
 
     }
 }
+fun getFileSize(context: Context,fileName: String): String{
+    val file=File(context.filesDir,fileName)
+    val fileSizeBytes = file.length()
+    val fileSizeKb = fileSizeBytes/1024
+
+    return if(fileSizeKb>1024){
+        val fileSizeMB = fileSizeKb/1024
+        "$fileSizeMB MB"
+    }
+    else{
+        "$fileSizeKb KB"
+    }
+}
 fun renameFile(context: Context,oldFileName:String,newFileName: String){
     val oldFile = File(context.filesDir,oldFileName)
     val newFile = File(context.filesDir,newFileName)
