@@ -33,6 +33,7 @@ import com.my.docscannerapp.screens.common.ErrorScreen
 import com.my.docscannerapp.screens.common.LoadingDialog
 import com.my.docscannerapp.screens.home.components.RenameDeleteDialog
 import com.my.docscannerapp.screens.home.components.pdfLayout
+import com.my.docscannerapp.utils.copyPdfFileToAppDirectory
 import com.my.docscannerapp.utils.showToast
 import com.my.docscannerapp.viewmodels.pdfViewModel
 import java.text.SimpleDateFormat
@@ -66,9 +67,9 @@ fun HomeScreen(pdfViewModel:pdfViewModel) {
 
                         "dd-MMM-yyyy HH:mm:ss",
                         Locale.getDefault()
-                    ).format(date) + ".pdf "
+                    ).format(date) + ".pdf"
 
-
+                    copyPdfFileToAppDirectory(context,pdf.uri,fileName)
                     val pdfEntity = pdfEntity(UUID.randomUUID().toString(),fileName,"10kb",date)
 
                     pdfList.add(pdfEntity)
@@ -78,6 +79,7 @@ fun HomeScreen(pdfViewModel:pdfViewModel) {
 
         }
 
+    //Initialise ML kit, most imp
     val scanner = remember {
         GmsDocumentScanning.getClient(
             GmsDocumentScannerOptions.Builder()

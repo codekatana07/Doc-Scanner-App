@@ -1,6 +1,9 @@
 package com.my.docscannerapp.screens.home.components
 
 import android.R.attr.maxLines
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,11 +38,15 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.MaterialTheme
 
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import com.my.docscannerapp.utils.getFileUri
 import com.my.docscannerapp.viewmodels.pdfViewModel
 
 @Composable
 fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: pdfViewModel) {
+    val context = LocalContext.current
+    val activity = LocalContext.current as Activity
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -47,6 +54,13 @@ fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: pdfViewModel) {
                 .padding(10.dp),
             elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(containerColor = Color.Red),
+            onClick = {
+                val getFileUri = getFileUri(context, pdfEntity.name)
+                val browserIntent = Intent(Intent.ACTION_VIEW,getFileUri)
+                browserIntent.setDataAndType(getFileUri, "application/pdf") //MIME type set
+                browserIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                activity.startActivity(browserIntent)
+            }
             )
         {
             Row(
