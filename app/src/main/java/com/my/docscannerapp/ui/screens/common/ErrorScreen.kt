@@ -1,4 +1,4 @@
-package com.my.docscannerapp.screens.common
+package com.my.docscannerapp.ui.screens.common
 
 import android.os.Message
 import androidx.compose.foundation.layout.Box

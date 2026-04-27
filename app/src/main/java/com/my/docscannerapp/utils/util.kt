@@ -21,7 +21,15 @@ fun copyPdfFileToAppDirectory(context: Context,pdfUri: Uri, destinationFileName:
 
     }
 }
-
+fun renameFile(context: Context,oldFileName:String,newFileName: String){
+    val oldFile = File(context.filesDir,oldFileName)
+    val newFile = File(context.filesDir,newFileName)
+    oldFile.renameTo(newFile)
+}
+fun deleteFile(context: Context,fileName: String): Boolean{
+    val file  = File(context.filesDir,fileName)
+    return file.deleteRecursively()
+}
 fun getFileUri(context: Context,fileName:String): Uri{
     val file = File(context.filesDir,fileName)
     return FileProvider.getUriForFile(context,"${context.packageName}.provider",file)

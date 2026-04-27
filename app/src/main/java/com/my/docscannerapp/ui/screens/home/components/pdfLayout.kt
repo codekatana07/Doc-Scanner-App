@@ -1,11 +1,7 @@
-package com.my.docscannerapp.screens.home.components
+package com.my.docscannerapp.ui.screens.home.components
 
-import android.R.attr.maxLines
 import android.app.Activity
 import android.content.Intent
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.gestures.snapping.SnapPosition
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,10 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -28,23 +22,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.my.docscannerapp.R
-import com.my.docscannerapp.models.pdfEntity
+import com.my.docscannerapp.data.models.pdfEntity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.MaterialTheme
 
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import com.my.docscannerapp.utils.getFileUri
-import com.my.docscannerapp.viewmodels.pdfViewModel
+import com.my.docscannerapp.ui.viewmodels.PdfViewModel
 
 @Composable
-fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: pdfViewModel) {
+fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: PdfViewModel) {
     val context = LocalContext.current
     val activity = LocalContext.current as Activity
         Card(
@@ -73,7 +64,7 @@ fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: pdfViewModel) {
                     painter = painterResource(R.drawable.outline_book_24),
                     contentDescription = "PDF icon",
                     modifier = Modifier.padding(8.dp)
-                        .size(60.dp),
+                        .size(52.dp),
                     tint = Color.White
 
                 )
@@ -98,6 +89,7 @@ fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: pdfViewModel) {
 
                 IconButton(
                     onClick = {
+                        pdfViewModel.currentPdfEntity = pdfEntity
                         pdfViewModel.showRenameDialog = true
                     }
                 ) {

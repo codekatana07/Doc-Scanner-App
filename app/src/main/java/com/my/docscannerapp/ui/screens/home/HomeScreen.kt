@@ -1,4 +1,4 @@
-package com.my.docscannerapp.screens.home
+package com.my.docscannerapp.ui.screens.home
 
 import android.app.Activity
 import android.util.Log
@@ -19,7 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,30 +29,29 @@ import androidx.compose.ui.res.stringResource
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
-import com.my.docscannerapp.models.pdfEntity
-import com.my.docscannerapp.screens.common.ErrorScreen
-import com.my.docscannerapp.screens.common.LoadingDialog
-import com.my.docscannerapp.screens.home.components.RenameDeleteDialog
-import com.my.docscannerapp.screens.home.components.pdfLayout
+import com.my.docscannerapp.data.models.pdfEntity
+import com.my.docscannerapp.ui.screens.common.ErrorScreen
+import com.my.docscannerapp.ui.screens.common.LoadingDialog
+import com.my.docscannerapp.ui.screens.home.components.RenameDeleteDialog
+import com.my.docscannerapp.ui.screens.home.components.pdfLayout
 import com.my.docscannerapp.utils.copyPdfFileToAppDirectory
 import com.my.docscannerapp.utils.showToast
-import com.my.docscannerapp.viewmodels.pdfViewModel
+import com.my.docscannerapp.ui.viewmodels.PdfViewModel
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(pdfViewModel:pdfViewModel) {
+fun HomeScreen(pdfViewModel:PdfViewModel) {
 
     LoadingDialog(pdfViewModel=pdfViewModel)
     RenameDeleteDialog(pdfViewModel=pdfViewModel)
     val activity = LocalContext.current as Activity
     val context = LocalContext.current
 
-    val pdfList = remember { mutableStateListOf<pdfEntity>() }
+    val pdfList by pdfViewModel.pdfStateFlow.collectAsState()
 
     val scannerLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartIntentSenderForResult() )
@@ -71,8 +71,9 @@ fun HomeScreen(pdfViewModel:pdfViewModel) {
 
                     copyPdfFileToAppDirectory(context,pdf.uri,fileName)
                     val pdfEntity = pdfEntity(UUID.randomUUID().toString(),fileName,"10kb",date)
+                    pdfViewModel.insertPdf(pdfEntity)
 
-                    pdfList.add(pdfEntity)
+
                 }
             }
 
