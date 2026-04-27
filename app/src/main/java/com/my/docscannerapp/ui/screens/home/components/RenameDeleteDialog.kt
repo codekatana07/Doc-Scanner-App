@@ -1,11 +1,15 @@
 package com.my.docscannerapp.ui.screens.home.components
 
 import android.content.Intent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,17 +81,24 @@ fun RenameDeleteDialog(
                                     ShareIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                                     context.startActivity(Intent.createChooser(ShareIntent,"Share"))
                                 }
-//                                pdfViewModel.currentPdfEntity = pdfEntity
-//                                pdfViewModel.showRenameDialog = true
                             }
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Share,
-                                contentDescription = "Share",
-                                modifier = Modifier.padding(2.dp)
-                                    .size(40.dp),
-                                tint = Color.Red
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(60.dp)
+                                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), shape = CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Share,
+                                    contentDescription = "Share",
+                                    modifier = Modifier.padding(2.dp)
+                                        .size(30.dp)
+                                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f), shape = CircleShape),
+                                    tint = Color.Red
+                                )
+                            }
+
                         }
 //                        TextButton(
 //                            onClick = {
@@ -133,9 +144,13 @@ fun RenameDeleteDialog(
 
 
 
-                            }
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = Color.White
+                            )
                         ) {
-                            Text("Rename")
+                            Text("Rename", color = Color.White)
                         }
                     }
                 }

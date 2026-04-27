@@ -2,10 +2,12 @@ package com.my.docscannerapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
+val PrimaryRedDark = Color(0xFFCE3F39)
+val PurpleRedDarkGrey = Color(0xFFE5C6C5)
 val Pink80 = Color(0xFFEFB8C8)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
+
+//light
+val PrimaryRed = Color(0xFFEC4B46)
+val PurpleRedGrey = Color(0xFF7C6866)
 val Pink40 = Color(0xFF7D5260)

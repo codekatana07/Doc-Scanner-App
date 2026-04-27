@@ -31,6 +31,7 @@ import com.my.docscannerapp.R
 import com.my.docscannerapp.data.models.pdfEntity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material3.MaterialTheme
 
 import androidx.compose.ui.platform.LocalContext
@@ -44,6 +45,8 @@ import java.util.Locale
 fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: PdfViewModel) {
     val context = LocalContext.current
     val activity = LocalContext.current as Activity
+    val formattedDate = SimpleDateFormat("dd MMM, hh:mm a", Locale.getDefault())
+        .format(pdfEntity.lastModifiedDate)
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -51,7 +54,7 @@ fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: PdfViewModel) {
                 .padding(10.dp),
             shape = RoundedCornerShape(16.dp),
             elevation = CardDefaults.cardElevation(6.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFE53935)),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
             onClick = {
                 val getFileUri = getFileUri(context, pdfEntity.name)
                 val browserIntent = Intent(Intent.ACTION_VIEW,getFileUri)
@@ -69,27 +72,19 @@ fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: PdfViewModel) {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(60.dp),
-                        //.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), shape = CircleShape),
+                        .size(50.dp)
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), shape = CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.outline_book_24),
-                        contentDescription = null,
-                        modifier = Modifier.size(40.dp),
-                        tint = Color.White
+                        imageVector = Icons.Default.PictureAsPdf,
+                        contentDescription = "PDF",
+                        modifier = Modifier.size(44.dp),
+                        tint = Color(0xFFF5F5F5)
 
-                        //tint = MaterialTheme.colorScheme.primary
                     )
                 }
-//                Icon(
-//                    painter = painterResource(R.drawable.outline_book_24),
-//                    contentDescription = "PDF icon",
-//                    modifier = Modifier.padding(8.dp)
-//                        .size(52.dp),
-//                    tint = Color.White
-//
-//                )
+
                 Spacer(modifier = Modifier.width(16.dp))
                 Column(
                     modifier = Modifier.weight(1f).padding(8.dp),
@@ -97,20 +92,27 @@ fun pdfLayout(pdfEntity: pdfEntity, pdfViewModel: PdfViewModel) {
 //                    horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = pdfEntity.name, style = MaterialTheme.typography.bodyLarge,
-                            maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        text = pdfEntity.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = Color.White
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Size: ${pdfEntity.size}",
-                        style = MaterialTheme.typography.bodyMedium
+                        text = "${pdfEntity.size} • ${formattedDate}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Text(
-                        text = "Date: ${SimpleDateFormat("dd-MMM-yyyy HH:mm:ss",Locale.getDefault()).format(pdfEntity.lastModifiedDate)}",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+//                    Text(
+//                        text = "Size: ${pdfEntity.size}",
+//                        style = MaterialTheme.typography.bodyMedium
+//                    )
+//                    Text(
+//                        text = "Date: ${SimpleDateFormat("dd-MMM-yyyy HH:mm:ss",Locale.getDefault()).format(pdfEntity.lastModifiedDate)}",
+//                        style = MaterialTheme.typography.bodyMedium
+//                    )
                 }
 
                 IconButton(

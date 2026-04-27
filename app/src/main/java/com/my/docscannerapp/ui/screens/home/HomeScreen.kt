@@ -13,12 +13,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import com.my.docscannerapp.R
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -104,7 +107,13 @@ fun HomeScreen(pdfViewModel:PdfViewModel) {
                         onCheckedChange = {
                             pdfViewModel.isDarkMode = it
                         },
-                        modifier = Modifier.padding(end = 8.dp)
+                        modifier = Modifier.padding(end = 8.dp),
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                            uncheckedThumbColor = Color.Gray,
+                            uncheckedTrackColor = Color.LightGray
+                        )
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -127,7 +136,10 @@ fun HomeScreen(pdfViewModel:PdfViewModel) {
                 Text(text= stringResource(R.string.scan))
             }, icon={
                 Icon(painter = painterResource(R.drawable.outline_add_a_photo_24), contentDescription = "camera" )
-            })
+            },
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = Color.White
+            )
         }
     ) { paddingValues ->
         if(pdfList.isEmpty()){
