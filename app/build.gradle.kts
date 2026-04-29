@@ -6,7 +6,8 @@ plugins {
 }
 
 android {
-    namespace = "com.my.docscannerapp"
+
+    namespace = "com.pdfit.scanner"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -14,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.my.docscannerapp"
+        applicationId = "com.pdfit.scanner"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
